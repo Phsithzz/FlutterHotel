@@ -1,9 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import {useNavigate} from "react-router-dom"
+import config from "../config";
+
 const SignIn = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate()
 
   const handleSignIn = async () => {
     try {
@@ -13,16 +18,13 @@ const SignIn = () => {
       };
 
       const res = await axios.post(
-        "http://localhost:3000/admin/signin",
+        config.apiPath + "/admin/signin",
         userData,
       );
 
-      if (res.data.message === "success") {
-        Swal.fire({
-          title: "Sign In",
-          text: "Sing In Success",
-          icon: "success",
-        });
+      if (res.data.token !== undefined) {
+        localStorage.setItem("token_flutter",res.data.token)
+        navigate("/home")
       }
     } catch (err) {
       Swal.fire({
