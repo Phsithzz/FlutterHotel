@@ -1,24 +1,26 @@
-import {BrowserRouter,Routes,Route} from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import SignIn from "./pages/SignIn"
-import Home from "./pages/Home"
-import MainLayout from "./layouts/MainLayout"
+import SignIn from "./pages/SignIn";
+import Home from "./pages/Home";
+import MainLayout from "./layouts/MainLayout";
+import Room from "./pages/Room";
 const App = () => {
   return (
     <>
-    <BrowserRouter>
-    <MainLayout>
+      <BrowserRouter>
+        <Routes>
 
-    <Routes>
-      <Route path="/" element={<SignIn />} />
-      <Route path="/home" element={<Home />} />
+          <Route path="/" element={<SignIn />} />
 
-    </Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/room" element={<Room/>}/>
+          </Route>
 
-    </MainLayout>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

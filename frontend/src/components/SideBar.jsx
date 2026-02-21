@@ -1,61 +1,54 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
-import Swal from "sweetalert2"
-import config from "../config"
-
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import config from "../config";
+import {Link} from "react-router-dom"
 const SideBar = () => {
-    const [name,setName] = useState("")
+  const [name, setName] = useState("");
 
-    useEffect(()=>{
-        fetchData()
-    },[])
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    const fetchData = async()=>{
-        try {
-            const headers = {
-                headers:{
-                    Authorization:"Bearer " + localStorage.getItem("token_flutter")
-                }
+  const fetchData = async () => {
+    try {
+      const headers = {
+        headers: {
+          Authorization: "Bearer" + localStorage.getItem("token_flutter"),
+        },
+      };
 
-            }
+      const res = await axios.get(config.apiPath + "/user/info", headers);
 
-            const res = await axios.get(config.apiPath + "/user/info",headers)
-
-            if(res.data.id !== undefined){
-                setName(res.data.name)
-            }
-
-        } catch (err) {
-            console.log(err)
-            Swal.fire({
-                title:"Error",
-                text:err.message,
-                icon:"error"
-            })
-            
-        }
+      if (res.data.id !== undefined) {
+        setName(res.data.name);
+      }
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        title: "Error",
+        text: err.message,
+        icon: "error",
+      });
     }
+  };
 
   return (
-     <div className="w-64 bg-gray-800 text-white flex flex-col">
-      
-
+    <div className="w-64 bg-gray-800 text-white flex flex-col">
       <div className="p-4 border-b border-gray-700">
         <div className="font-semibold">{name}</div>
       </div>
 
-   
       <nav className="flex-1 p-4 space-y-2">
-        <a href="/" className="block p-2 rounded hover:bg-gray-700">
+        <Link to="/room" className="block p-2 rounded hover:bg-gray-700">
           ห้องพัก
-        </a>
+        </Link>
         <a href="/contact" className="block p-2 rounded hover:bg-gray-700">
           รายการห้อง
         </a>
       </nav>
-
     </div>
-  )
-}
+  );
+};
 
-export default SideBar
+export default SideBar;

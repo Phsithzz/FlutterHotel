@@ -22,3 +22,11 @@ model User{
   level String @default("user")
   status String @default("use")
 }
+
+model Room{
+  id Int @id() @default(autoincrement())
+  name String
+  price Int
+
+
+}
