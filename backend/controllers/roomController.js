@@ -20,7 +20,7 @@ export const createRoom = async(req,res)=>{
     }
 }
 
-export const  getAllRoom = async()=>{
+export const  getAllRoom = async(req,res)=>{
     try {
         const results = await prisma.room.findMany({
             orderBy:{

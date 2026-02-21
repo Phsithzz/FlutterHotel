@@ -4,9 +4,12 @@ import NewModal from "../components/NewModal";
 import Swal from "sweetalert2";
 import axios from "axios";
 import config from "../config";
+import { useEffect } from "react";
 
 const Room = () => {
   const [modalNew, setModalNew] = useState(false);
+
+  const [rooms, setRooms] = useState([]);
 
   const handleSave = async (data) => {
     try {
@@ -16,18 +19,17 @@ const Room = () => {
       };
 
       const res = await axios.post(config.apiPath + "/room/create", payload);
-      
-      if(res.data.message == "success"){
-              Swal.fire({
-        title: "Save",
-        text: "Save Success",
-        icon: "success",
-        timer:1000,
-      });
-      fetchData()
-      setModalNew(false)
-      }
 
+      if (res.data.message == "success") {
+        Swal.fire({
+          title: "Save",
+          text: "Save Success",
+          icon: "success",
+          timer: 1000,
+        });
+        fetchData();
+        setModalNew(false);
+      }
     } catch (err) {
       console.log(err);
       Swal.fire({
@@ -36,12 +38,28 @@ const Room = () => {
         icon: "error",
       });
     }
-    
   };
 
-  const fetchData = async()=>{
-    
-  }
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(config.apiPath + "/room/list");
+
+      if (res.data.results !== undefined) {
+        setRooms(res.data.results);
+      }
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        title: "Error",
+        text: err.message,
+        icon: "error",
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -75,6 +93,52 @@ const Room = () => {
             </div>
           </>
         )}
+
+
+        <div className="bg-white shadow-md border rounded-lg overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="">
+              <tr>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                  ลำดับ
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                  ชื่อห้อง
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                  ราคา / วัน
+                </th>
+              </tr>
+            </thead>
+
+            <tbody className="bg-white divide-y divide-gray-200">
+              {rooms.length > 0 ? (
+                rooms.map((room, index) => (
+                  <tr key={room.id} className="hover:bg-gray-50 transition">
+                    <td className="px-6 py-4 text-sm text-gray-700">
+                      {index + 1}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-700">
+                      {room.name}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-700">
+                      {room.price} บาท
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="3"
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
+                    ไม่มีข้อมูล
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
