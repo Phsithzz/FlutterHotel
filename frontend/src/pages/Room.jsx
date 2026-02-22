@@ -20,8 +20,8 @@ const Room = () => {
   const [rooms, setRooms] = useState([]);
 
   const [selectedRoom, setSelectedRoom] = useState({});
-
   const [fileRoom, setFileRoom] = useState(null);
+  const [roomImages,setRoomImages] = useState([])
 
   const chooseFile = (files) => {
     if (files !== undefined) {
@@ -55,6 +55,7 @@ const Room = () => {
           icon: "success",
           timer: 1000,
         });
+        fetchDataRoomImages(selectedRoom.id)
 
         setFileRoom(null);
         setModalImage(false);
@@ -68,6 +69,50 @@ const Room = () => {
       });
     }
   };
+
+  const fetchDataRoomImages = async(roomId)=>{
+    try {
+      const res = await axios.get(
+        config.apiPath + "/roomImage/list/" + roomId
+      )
+
+      if(res.data.results !== undefined){
+        setRoomImages(res.data.results)
+
+      }
+    } catch (err) {
+      Swal.fire({
+        title:"Error",
+        text:err.messaage,
+        icon:"error"
+      })
+      
+    }
+  }
+  const removeRoomImage = async(image)=>{
+    try {
+      const button = await Swal.fire({
+        title:"ลบภาพ",
+        text:"ยืนยันการลบภาพของห้องนี้",
+        icon:"question",
+        showCancelButton:true,
+        showConfirmButton:true
+      })
+
+      if(button.isConfirmed){
+        await  axios.delete(config.apiPath + "/roomImage/remove/"+image.id)
+        fetchDataRoomImages(image.roomId)
+      }
+
+    } catch (err) {
+      Swal.fire({
+        title:"Error",
+        text:err.message,
+        icon:"error"
+      })
+      
+    }
+  }
 
   const handleSave = async (data) => {
     try {
@@ -150,6 +195,7 @@ const Room = () => {
 
   const chooseRoom = (room) => {
     setSelectedRoom(room);
+    fetchDataRoomImages(room.id)
   };
 
   return (
@@ -192,13 +238,15 @@ const Room = () => {
             >
               <div
                 onClick={(e) => e.stopPropagation()}
-                className="bg-white rounded-md p-6 w-full shadow-2xl max-w-2xl"
+                className="bg-white rounded-md p-6 w-full shadow-2xl max-w-2xl max-h-[90vh] overflow-y-auto"
               >
                 <ImageModal
                   onClose={() => setModalImage(false)}
                   selectedRoom={selectedRoom}
                   onChooseFile={chooseFile}
                   onSave={uploadFile}
+                  roomImages={roomImages}
+                  onRemove={removeRoomImage}
                 />
               </div>
             </div>
