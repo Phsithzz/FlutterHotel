@@ -2,21 +2,19 @@ import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa6";
 import { useState } from "react";
 const NewModal = ({ onClose, onSave }) => {
-
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  
-  
-
-
 
   return (
     <>
       <div className="flex flex-col space-y-4">
         <div className="flex justify-between items-center ">
           <h1 className="text-2xl font-semibold">จัดการห้องพัก</h1>
-          <button onClick={onClose} className="cursor-pointer hover:text-red-500 
-          transition ease-in duration-200">
+          <button
+            onClick={onClose}
+            className="cursor-pointer hover:text-red-500 
+          transition ease-in duration-200"
+          >
             <ImCross size={20} />
           </button>
         </div>
@@ -30,7 +28,7 @@ const NewModal = ({ onClose, onSave }) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               type="text"
-              className="border-2 border-gray-300 py-2 px-2"
+              className="border-2 border-gray-300 py-2 px-2 rounded-md"
             />
           </div>
 
@@ -42,7 +40,7 @@ const NewModal = ({ onClose, onSave }) => {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               type="text"
-              className="border-2 border-gray-300 py-2 px-2"
+              className="border-2 border-gray-300 py-2 px-2 rounded-md"
             />
           </div>
         </div>

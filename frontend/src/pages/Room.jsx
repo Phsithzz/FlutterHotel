@@ -10,11 +10,64 @@ import config from "../config";
 import { MdAdd } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { FaImage } from "react-icons/fa";
+import ImageModal from "../components/imageModal";
 
 const Room = () => {
   const [modalNew, setModalNew] = useState(false);
+  const [modalImage, setModalImage] = useState(false);
 
   const [rooms, setRooms] = useState([]);
+
+  const [selectedRoom, setSelectedRoom] = useState({});
+
+  const [fileRoom, setFileRoom] = useState(null);
+
+  const chooseFile = (files) => {
+    if (files !== undefined) {
+      if (files !== null) {
+        if (files.length > 0) {
+          const file = files[0];
+          setFileRoom(file);
+        }
+      }
+    }
+  };
+
+  const uploadFile = async () => {
+    try {
+      if (fileRoom !== null) {
+        let formData = new FormData();
+        formData.append("fileRoom", fileRoom);
+        const headers = {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        };
+        await axios.post(
+          config.apiPath + "/roomImage/create/" + selectedRoom.id,
+          formData,
+          headers,
+        );
+        Swal.fire({
+          title: "Success",
+          text: "Upload Success",
+          icon: "success",
+          timer: 1000,
+        });
+
+        setFileRoom(null);
+        setModalImage(false);
+      }
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        title: "Error",
+        text: err.message,
+        icon: "error",
+      });
+    }
+  };
 
   const handleSave = async (data) => {
     try {
@@ -66,33 +119,38 @@ const Room = () => {
     fetchData();
   }, []);
 
-  const handleDelete = async(room)=>{
+  const handleDelete = async (room) => {
     try {
       const button = await Swal.fire({
-        title:"Delete Room ?",
-        text:"Are you Sure?",
-        icon:"question",
-        showCancelButton:true,
-        showConfirmButton:true,
-      })
+        title: "Delete Room ?",
+        text: "Are you Sure?",
+        icon: "question",
+        showCancelButton: true,
+        showConfirmButton: true,
+      });
 
-      if(button.isConfirmed){
-        const res = await axios.delete(config.apiPath + "/room/remove/" + room.id)
+      if (button.isConfirmed) {
+        const res = await axios.delete(
+          config.apiPath + "/room/remove/" + room.id,
+        );
 
-        if(res.data.message == "success"){
-          fetchData()
+        if (res.data.message == "success") {
+          fetchData();
         }
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
       Swal.fire({
-        title:"Errpr",
-        text:err.message,
-        icon:"error"
-      })
-      
+        title: "Errpr",
+        text: err.message,
+        icon: "error",
+      });
     }
-  }
+  };
+
+  const chooseRoom = (room) => {
+    setSelectedRoom(room);
+  };
 
   return (
     <>
@@ -121,6 +179,26 @@ const Room = () => {
                 <NewModal
                   onClose={() => setModalNew(false)}
                   onSave={handleSave}
+                />
+              </div>
+            </div>
+          </>
+        )}
+        {modalImage && (
+          <>
+            <div
+              onClick={() => setModalImage(false)}
+              className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center w-full h-full"
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white rounded-md p-6 w-full shadow-2xl max-w-2xl"
+              >
+                <ImageModal
+                  onClose={() => setModalImage(false)}
+                  selectedRoom={selectedRoom}
+                  onChooseFile={chooseFile}
+                  onSave={uploadFile}
                 />
               </div>
             </div>
@@ -160,13 +238,23 @@ const Room = () => {
                       {room.price} บาท
                     </td>
                     <td className="flex gap-2 justify-center px-6 py-4 text-sm text-gray-700">
-                      <button className="bg-blue-500 px-2 py-2 rounded-md">
-                        <FaPencilAlt size={20}  color="white"/>
+                      <button
+                        onClick={() => {
+                          setModalImage(true);
+                          chooseRoom(room);
+                        }}
+                        className="bg-green-500 px-2 py-2 rounded-md cursor-pointer"
+                      >
+                        <FaImage size={20} color="white" />
                       </button>
-                      <button 
-                      onClick={()=>handleDelete(room)}
-                      className="bg-red-500 px-2 py-2 rounded-md">
-                        <MdDelete size={20} color="white"/>
+                      <button className="bg-blue-500 px-2 py-2 rounded-md cursor-pointer">
+                        <FaPencilAlt size={20} color="white" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(room)}
+                        className="bg-red-500 px-2 py-2 rounded-md cursor-pointer"
+                      >
+                        <MdDelete size={20} color="white" />
                       </button>
                     </td>
                   </tr>
