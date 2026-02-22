@@ -5,5 +5,6 @@ const router = express.Router()
 
 router.post("/room/create",roomController.createRoom)
 router.get("/room/list",roomController.getAllRoom)
+router.delete("/room/remove/:id",roomController.removeRoom)
 
 export default router

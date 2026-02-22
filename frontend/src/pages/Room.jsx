@@ -77,7 +77,7 @@ const Room = () => {
       })
 
       if(button.isConfirmed){
-        const res = await axios.delete(config.apiPath + "/room/remove" + room.id)
+        const res = await axios.delete(config.apiPath + "/room/remove/" + room.id)
 
         if(res.data.message == "success"){
           fetchData()
