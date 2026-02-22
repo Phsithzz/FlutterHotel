@@ -23,3 +23,24 @@ export const createImage = async(req,res)=>{
         
     }
 }
+
+export const getAllImage = async(req,res)=>{
+    try {
+        const roomId = parseInt(req.params.roomId)
+        const results = await prisma.roomImage.findMany({
+            where:{
+                roomId:roomId
+            }
+        })
+
+        return res.json({
+            results:results
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            error:err.message
+        })
+        
+    }
+}
