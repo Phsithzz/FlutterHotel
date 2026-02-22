@@ -29,6 +29,7 @@ model Room{
   price Int
   status String @default("use")
   RoomImages RoomImage[]
+  RoomRentDetail RoomRentDetail[]
 
 }
 
@@ -37,4 +38,25 @@ model RoomImage{
   name String
   roomId Int
   Room Room @relation(fields: [roomId],references: [id])
+}
+
+model RoomRent{
+  id Int @id() @default(autoincrement())
+  customerName String
+  customerPhone String
+  rentDate DateTime
+  checkinDate DateTime?
+  checkoutDate DateTime?
+  find Int?
+  remark String?
+  RoomRentDetail RoomRentDetail[]
+  payDate DateTime?
+}
+
+model RoomRentDetail{
+  id Int @id() @default(autoincrement())
+  roomId Int
+  roomRentId Int
+  Room Room @relation(fields: [roomId],references: [id])
+  RoomRent RoomRent @relation(fields: [roomRentId],references: [id])
 }

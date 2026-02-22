@@ -44,7 +44,7 @@ const SideBar = () => {
           ห้องพัก
         </Link>
         <a href="/contact" className="block p-2 rounded hover:bg-gray-700">
-          รายการห้อง
+          รายการจองห้อง
         </a>
       </nav>
     </div>

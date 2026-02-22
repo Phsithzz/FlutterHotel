@@ -6,7 +6,7 @@ import fileUpload from "express-fileupload"
 import userRoute from "./routes/userRoute.js"
 import roomRoute from "./routes/roomRoute.js"
 import roomImageRoute from "./routes/roomImageRoute.js"
-
+import roomRentRoute from "./routes/roomRentRoute.js"
 dotenv.config()
 const app = express()
 
@@ -22,6 +22,8 @@ app.get("/",(req,res)=>{
 app.use(userRoute)
 app.use(roomRoute)
 app.use(roomImageRoute)
+app.use(roomRentRoute)
+
 
 const port = process.env.PORT || 3000
 app.listen(port,()=>{
