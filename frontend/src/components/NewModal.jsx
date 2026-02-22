@@ -15,7 +15,8 @@ const NewModal = ({ onClose, onSave }) => {
       <div className="flex flex-col space-y-4">
         <div className="flex justify-between items-center ">
           <h1 className="text-2xl font-semibold">จัดการห้องพัก</h1>
-          <button onClick={onClose} className="cursor-pointer">
+          <button onClick={onClose} className="cursor-pointer hover:text-red-500 
+          transition ease-in duration-200">
             <ImCross size={20} />
           </button>
         </div>

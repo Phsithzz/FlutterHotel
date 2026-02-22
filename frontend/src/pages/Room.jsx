@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { MdAdd } from "react-icons/md";
+import { useEffect } from "react";
+
 import NewModal from "../components/NewModal";
+
 import Swal from "sweetalert2";
 import axios from "axios";
 import config from "../config";
-import { useEffect } from "react";
+
+import { MdAdd } from "react-icons/md";
+import { FaPencilAlt } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 const Room = () => {
   const [modalNew, setModalNew] = useState(false);
@@ -61,6 +66,34 @@ const Room = () => {
     fetchData();
   }, []);
 
+  const handleDelete = async(room)=>{
+    try {
+      const button = await Swal.fire({
+        title:"Delete Room ?",
+        text:"Are you Sure?",
+        icon:"question",
+        showCancelButton:true,
+        showConfirmButton:true,
+      })
+
+      if(button.isConfirmed){
+        const res = await axios.delete(config.apiPath + "/room/remove" + room.id)
+
+        if(res.data.message == "success"){
+          fetchData()
+        }
+      }
+    } catch (err) {
+      console.log(err)
+      Swal.fire({
+        title:"Errpr",
+        text:err.message,
+        icon:"error"
+      })
+      
+    }
+  }
+
   return (
     <>
       <div className="flex flex-col space-y-4">
@@ -94,7 +127,6 @@ const Room = () => {
           </>
         )}
 
-
         <div className="bg-white shadow-md border rounded-lg overflow-hidden">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="">
@@ -107,6 +139,9 @@ const Room = () => {
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
                   ราคา / วัน
+                </th>
+                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">
+                  จัดการ
                 </th>
               </tr>
             </thead>
@@ -124,12 +159,22 @@ const Room = () => {
                     <td className="px-6 py-4 text-sm text-gray-700">
                       {room.price} บาท
                     </td>
+                    <td className="flex gap-2 justify-center px-6 py-4 text-sm text-gray-700">
+                      <button className="bg-blue-500 px-2 py-2 rounded-md">
+                        <FaPencilAlt size={20}  color="white"/>
+                      </button>
+                      <button 
+                      onClick={()=>handleDelete(room)}
+                      className="bg-red-500 px-2 py-2 rounded-md">
+                        <MdDelete size={20} color="white"/>
+                      </button>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="3"
+                    colSpan="4"
                     className="px-6 py-4 text-center text-gray-500"
                   >
                     ไม่มีข้อมูล
