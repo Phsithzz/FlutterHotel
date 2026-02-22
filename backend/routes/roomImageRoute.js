@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.post("/roomImage/create/:roomId",roomImageController.createImage)
 router.get("/roomImage/list/:roomId",roomImageController.getAllImage)
-
+router.delete("/roomImage/remove/:id",roomImageController.removeImageRoom)
 
 
 export default router
