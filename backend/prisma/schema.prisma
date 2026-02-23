@@ -49,6 +49,7 @@ model RoomRent{
   checkoutDate DateTime?
   find Int?
   remark String?
+  
   RoomRentDetail RoomRentDetail[]
   payDate DateTime?
 }
