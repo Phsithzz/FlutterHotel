@@ -253,39 +253,39 @@ const Room = () => {
           </>
         )}
 
-        <div className="bg-white shadow-md border rounded-lg overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
+        <div className="bg-white shadow-md  rounded-lg overflow-hidden border border-gray-300">
+          <table className="min-w-full divide-y divide-gray-200 ">
             <thead className="">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700 border border-gray-300">
                   ลำดับ
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700 border border-gray-300">
                   ชื่อห้อง
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700 border border-gray-300">
                   ราคา / วัน
                 </th>
-                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">
+                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700 border border-gray-300">
                   จัดการ
                 </th>
               </tr>
             </thead>
 
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-200 ">
               {rooms.length > 0 ? (
                 rooms.map((room, index) => (
                   <tr key={room.id} className="hover:bg-gray-50 transition">
-                    <td className="px-6 py-4 text-sm text-gray-700">
+                    <td className="px-6 py-4 text-sm text-gray-700 border border-gray-300">
                       {index + 1}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-700">
+                    <td className="px-6 py-4 text-sm text-gray-700 border border-gray-300">
                       {room.name}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-700">
+                    <td className="px-6 py-4 text-sm text-gray-700 border border-gray-300">
                       {room.price} บาท
                     </td>
-                    <td className="flex gap-2 justify-center px-6 py-4 text-sm text-gray-700">
+                    <td className="flex gap-2 justify-center px-6 py-4 text-sm text-gray-700 ">
                       <button
                         onClick={() => {
                           setModalImage(true);

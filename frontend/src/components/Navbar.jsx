@@ -5,11 +5,6 @@ const Navbar = () => {
       
       <a href = "/home" className="font-semibold text-lg">Home</a>
 
-      <div className="flex items-center gap-4">
-        <button className="hover:text-gray-600">🔍</button>
-        <button className="hover:text-gray-600">🔔</button>
-        <button className="hover:text-gray-600">⚙️</button>
-      </div>
 
     </div>
   )

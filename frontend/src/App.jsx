@@ -4,6 +4,7 @@ import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import MainLayout from "./layouts/MainLayout";
 import Room from "./pages/Room";
+import RoomRent from "./pages/RoomRent";
 const App = () => {
   return (
     <>
@@ -15,6 +16,7 @@ const App = () => {
           <Route element={<MainLayout />}>
             <Route path="/home" element={<Home />} />
             <Route path="/room" element={<Room/>}/>
+            <Route path="/roomRent" element={<RoomRent/>}/>
           </Route>
 
         </Routes>
