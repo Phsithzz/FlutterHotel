@@ -60,3 +60,21 @@ export const removeRoom = async(req,res)=>{
         
     }
 }
+export const updateRoom = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id)
+
+    await prisma.room.update({
+      where: { id: id },
+      data: {
+        name: req.body.name,
+        price: parseInt(req.body.price)
+      }
+    })
+
+    return res.json({ message: "success" })
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({ error: err.message })
+  }
+}
