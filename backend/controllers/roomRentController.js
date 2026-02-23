@@ -24,3 +24,75 @@ export const getRentAll = async(req,res)=>{
         
     }
 }
+
+export const isRent = async(req,res)=>{
+    try {
+        
+        const roomId = parseInt(req.body.roomId)
+        const checkinDate = new Date(req.body.checkinDate)
+
+        const row = await prisma.roomRentDetail.findMany({
+            where:{
+                roomId:roomId,
+                RoomRent:{
+                    checkoutDate:{
+                        gt:checkinDate
+                    }
+                }
+            },
+            include:{
+                RoomRent:true
+            }
+            
+        })
+
+        return res.json({
+            results : row
+        })
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            error:err.message
+        })
+        
+    }
+}
+
+export const rentRoom = async(req,res)=>{
+    try {
+        const rooms = req.body.rooms
+        const roomRent = await prisma.roomRent.create({
+            data:{
+                customerName:req.body.customerName,
+                customerPhone:req.body.customerPhone,
+                rentDate:new Date(),
+                checkinDate:new Date(req.body.checkinDate),
+                checkoutDate:new Date(req.body.checkoutDate)
+            }
+        })
+
+        for(let i = 0;i<rooms.length;i++){
+            const roomId = rooms[i]
+
+            await prisma.roomRentDetail.create({
+                data:{
+                    roomId:roomId,
+                    roomRentId:roomRent.id
+                }
+            })
+        }
+
+        return res.json({
+            message:"success"
+        })
+
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            error :err.message
+        })
+        
+    }
+}
