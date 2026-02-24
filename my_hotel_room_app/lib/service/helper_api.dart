@@ -1,0 +1,14 @@
+import 'package:my_hotel_room_app/service/interceptor_dio.dart';
+
+class HelperApi {
+  AppInterceptor appInterceptor = AppInterceptor();
+  Future<Map<String, dynamic>> httpGet({required String path}) async {
+    try {
+      var body = await appInterceptor.dio.get(path);
+
+      return body.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
