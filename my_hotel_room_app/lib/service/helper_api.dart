@@ -2,6 +2,7 @@ import 'package:my_hotel_room_app/service/interceptor_dio.dart';
 
 class HelperApi {
   AppInterceptor appInterceptor = AppInterceptor();
+  
   Future<Map<String, dynamic>> httpGet({required String path}) async {
     try {
       var body = await appInterceptor.dio.get(path);
@@ -10,5 +11,16 @@ class HelperApi {
     } catch (e) {
       rethrow;
     }
+  }
+}
+
+Future<Map<String, dynamic>> httpPost({
+  required String path,
+  required String data,
+}) async {
+  try {
+    var body = await appInterceptor.;
+  } catch (err) {
+    rethrow;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_hotel_room_app/hom_page.dart';
+import 'package:my_hotel_room_app/screens/hom_page.dart';
 
 void main() {
   runApp(const MyApp());

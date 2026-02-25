@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/instance_manager.dart';
+
+import 'package:get/get.dart';
 import 'package:my_hotel_room_app/controller/home_page_controller.dart';
+import 'package:my_hotel_room_app/screens/room_form.dart';
 import 'package:my_hotel_room_app/service/app_unity.dart';
 
 class HomPage extends StatefulWidget {
@@ -12,6 +13,7 @@ class HomPage extends StatefulWidget {
 }
 
 class _HomPageState extends State<HomPage> {
+  
   final controller = Get.put(HomePageController());
 
   @override
@@ -46,7 +48,25 @@ class _HomPageState extends State<HomPage> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          if ((controller.roomList.value.results ?? [])
+              .where((e) => e.check ?? false)
+              .toList()
+              .isEmpty) {
+            AppUnity.myShowSnackBar(
+              context: context,
+              text: "กรุณาเลือกห้องพัก",
+              typeDialog: TypeDialog.warning,
+            );
+            return;
+          }
+          Get.to(() =>  RoomForm(
+            roomId:(controller.roomList.value.results ?? [])
+            .where((e)=>e.check ?? false)
+            .map((e)=>e.id ?? 0)
+            .toList(),
+          ));
+        },
         child: const Icon(Icons.book),
       ),
     );
