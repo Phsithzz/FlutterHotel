@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_hotel_room_app/controller/home_page_controller.dart';
 import 'package:my_hotel_room_app/screens/room_form.dart';
+import 'package:my_hotel_room_app/screens/room_image.dart';
 import 'package:my_hotel_room_app/service/app_unity.dart';
 
 class HomPage extends StatefulWidget {
@@ -40,6 +41,9 @@ class _HomPageState extends State<HomPage> {
                   ),
                   title: Text(e.name ?? ""),
                   subtitle: Text("${AppUnity.f(text: e.price ?? 0)} บาท"),
+                  onTap: () {
+                    Get.to(() => RoomImage(roomListModel: e));
+                  },
                 ),
               )
               .toList(),
