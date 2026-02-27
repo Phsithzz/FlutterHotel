@@ -25,38 +25,44 @@ export const getRentAll = async(req,res)=>{
     }
 }
 
-export const isRent = async(req,res)=>{
-    try {
-        
-        const roomId = parseInt(req.body.roomId)
-        const checkinDate = new Date(req.body.checkinDate)
+export const isRent = async (req, res) => {
+  try {
+    const roomId = parseInt(req.body.roomId)
+    const checkinDate = new Date(req.body.checkinDate)
+    const checkoutDate = new Date(req.body.checkoutDate)
 
-        const row = await prisma.roomRentDetail.findMany({
-            where:{
-                roomId:roomId,
-                RoomRent:{
-                    checkoutDate:{
-                        gt:checkinDate
-                    }
-                }
+    const row = await prisma.roomRentDetail.findMany({
+      where: {
+        roomId: roomId,
+        RoomRent: {
+          AND: [
+            {
+              checkinDate: {
+                lt: checkoutDate,   
+              },
             },
-            include:{
-                RoomRent:true
-            }
-            
-        })
+            {
+              checkoutDate: {
+                gt: checkinDate,   
+              },
+            },
+          ],
+        },
+      },
+      include: {
+        RoomRent: true,
+      },
+    })
 
-        return res.json({
-            results : row
-        })
-
-    } catch (err) {
-        console.log(err)
-        res.status(500).json({
-            error:err.message
-        })
-        
-    }
+    return res.json({
+      results: row,
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      error: err.message,
+    })
+  }
 }
 
 export const rentRoom = async(req,res)=>{
