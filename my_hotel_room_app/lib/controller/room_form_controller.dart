@@ -18,7 +18,13 @@ class RoomFormController extends GetxController {
       for (int i = 0; i < roomId.length; i++) {
         bool isRentCheck = await isRent(
           roomId[i],
-          AppUnity.dateFormat(date: dateRange.value.start),
+          AppUnity.dateFormatSend(
+            date: AppUnity.myShowSnackBar(
+              context: Get.context!,
+              text: "จองไม่สำเร็จ",
+              typeDialog: TypeDialog.error,
+            ),
+          ),
         );
 
         if (isRentCheck == false) {
