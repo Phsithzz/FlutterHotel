@@ -19,8 +19,11 @@ class RoomFormController extends GetxController {
         path: "/roomRent/rent",
         data: jsonEncode({
           "customerName": nameCustomer.text,
-          "cutomerPhone": telCustomer.text,
+          "customerPhone": telCustomer.text,
           "checkinDate": AppUnity.dateFormatSend(
+            date: AppUnity.dateFormat(date: dateRange.value.start),
+          ),
+          "checkoutDate": AppUnity.dateFormatSend(
             date: AppUnity.dateFormat(date: dateRange.value.end),
           ),
           "rooms": roomId,
@@ -28,6 +31,7 @@ class RoomFormController extends GetxController {
       );
       Get.back(result: true);
     } catch (err) {
+      print(err);
       AppUnity.myShowSnackBar(
         context: Get.context!,
         text: err.toString(),

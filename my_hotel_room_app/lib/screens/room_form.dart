@@ -42,26 +42,31 @@ class _RoomFormState extends State<RoomForm> {
 
           const SizedBox(height: 15),
 
-          TextFormField(
-            readOnly: true,
-            controller: TextEditingController()
-              ..text =
-                  "${AppUnity.dateFormat(date: controller.dateRange.value.start)} - ${AppUnity.dateFormat(date: controller.dateRange.value.end)}",
-            onTap: () async {
-              DateTimeRange? dateTimeRange = await AppUnity.showDatePickerRang(
-                context: context,
-                currentDate: controller.dateRange.value.start,
-                dateTimeRange: controller.dateRange.value,
-                lastDate: DateTime.now().add(const Duration(days: 365 * 10)),
-              );
-              if (dateTimeRange != null) {
-                controller.dateRange.value = dateTimeRange;
-                controller.update();
-              }
-            },
-            decoration: const InputDecoration(
-              hintText: "วันที่ Checkin/Checkout",
-              labelText: "วันที่ Checkin/Checkout",
+          Obx(
+            () => TextFormField(
+              readOnly: true,
+              controller: TextEditingController()
+                ..text =
+                    "${AppUnity.dateFormat(date: controller.dateRange.value.start)} - ${AppUnity.dateFormat(date: controller.dateRange.value.end)}",
+              onTap: () async {
+                DateTimeRange? dateTimeRange =
+                    await AppUnity.showDatePickerRang(
+                      context: context,
+                      currentDate: controller.dateRange.value.start,
+                      dateTimeRange: controller.dateRange.value,
+                      lastDate: DateTime.now().add(
+                        const Duration(days: 365 * 10),
+                      ),
+                    );
+
+                if (dateTimeRange != null) {
+                  controller.dateRange.value = dateTimeRange;
+                }
+              },
+              decoration: const InputDecoration(
+                hintText: "วันที่ Checkin/Checkout",
+                labelText: "วันที่ Checkin/Checkout",
+              ),
             ),
           ),
         ],

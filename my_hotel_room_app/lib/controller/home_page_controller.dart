@@ -12,7 +12,6 @@ class HomePageController extends GetxController {
     try {
       var body = await HelperApi().httpGet(path: "/room/list");
       roomList.value = roomListModelFromJson(jsonEncode(body));
-
     } catch (e) {
       AppUnity.myShowSnackBar(
         context: Get.context!,

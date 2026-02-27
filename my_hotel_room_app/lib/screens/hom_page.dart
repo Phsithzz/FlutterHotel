@@ -17,8 +17,8 @@ class _HomPageState extends State<HomPage> {
 
   @override
   void initState() {
-    controller.getAllRoom();
     super.initState();
+    controller.getAllRoom();
   }
 
   @override

@@ -28,7 +28,7 @@ class Result {
   String? status;
   bool? check;
 
-  Result({ this.id, this.name, this.price, this.status,this.check});
+  Result({this.id, this.name, this.price, this.status, this.check});
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     id: json["id"],
@@ -43,6 +43,6 @@ class Result {
     "name": name,
     "price": price,
     "status": status,
-    "check":check
+    "check": check,
   };
 }
