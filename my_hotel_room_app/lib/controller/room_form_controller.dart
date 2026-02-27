@@ -26,6 +26,7 @@ class RoomFormController extends GetxController {
           "rooms": roomId,
         }),
       );
+      Get.back(result: true);
     } catch (err) {
       AppUnity.myShowSnackBar(
         context: Get.context!,

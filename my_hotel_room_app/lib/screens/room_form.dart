@@ -70,7 +70,9 @@ class _RoomFormState extends State<RoomForm> {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(10),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            controller.saveRoom(widget.roomId);
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Get.theme.primaryColor,
             foregroundColor: Colors.white,

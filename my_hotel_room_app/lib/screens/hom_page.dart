@@ -13,7 +13,6 @@ class HomPage extends StatefulWidget {
 }
 
 class _HomPageState extends State<HomPage> {
-  
   final controller = Get.put(HomePageController());
 
   @override
@@ -60,12 +59,23 @@ class _HomPageState extends State<HomPage> {
             );
             return;
           }
-          Get.to(() =>  RoomForm(
-            roomId:(controller.roomList.value.results ?? [])
-            .where((e)=>e.check ?? false)
-            .map((e)=>e.id ?? 0)
-            .toList(),
-          ));
+          Get.to(
+            () => RoomForm(
+              roomId: (controller.roomList.value.results ?? [])
+                  .where((e) => e.check ?? false)
+                  .map((e) => e.id ?? 0)
+                  .toList(),
+            ),
+          )!.then((val) {
+            if (val != null) {
+              AppUnity.myShowSnackBar(
+                context: context,
+                text: "จองสำเร็จ",
+                typeDialog: TypeDialog.success,
+              );
+              controller.getAllRoom();
+            }
+          });
         },
         child: const Icon(Icons.book),
       ),
